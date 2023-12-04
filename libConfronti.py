@@ -1,4 +1,5 @@
 from astropy.io import fits
+import numpy as np
 
 
 def leggi_file_fits(file_path):
@@ -26,25 +27,13 @@ def confronta_colonne(file1, colonna1_file1, colonna2_file1, file2, colonna1_fil
     dati_colonna1_file2 = leggi_colonna(file2, colonna1_file2)
     dati_colonna2_file2 = leggi_colonna(file2, colonna2_file2)
 
-    # Trova gli elementi comuni nella colonna1 tra i due file---INTERSEZIONE BANALE
-    #elementi_comuni_colonna1 = set(dati_colonna1_file1).intersection(set(dati_colonna1_file2))
+    # Trova gli elementi comuni tra le coppie di valori entro la soglia
+    elementi_comuni = []
+    for valore1_file1, valore2_file1, valore1_file2, valore2_file2 in zip(dati_colonna1_file1, dati_colonna2_file1, dati_colonna1_file2, dati_colonna2_file2):
+        if abs(valore1_file1 - valore1_file2) < soglia and abs(valore2_file1 - valore2_file2) < soglia:
+            elementi_comuni.append((valore1_file1, valore2_file1))
 
-    # Trova gli elementi comuni nella colonna1 tra i due file entro la soglia
-    elementi_comuni_colonna1 = set()
-    for valore1_file1, valore1_file2 in zip(dati_colonna1_file1, dati_colonna1_file2):
-        if abs(valore1_file1 - valore1_file2) < soglia:
-            elementi_comuni_colonna1.add(valore1_file1)
-
-    # Trova gli elementi comuni nella colonna2 tra i due file---INTERSEZIONE BANALE
-    #elementi_comuni_colonna2 = set(dati_colonna2_file1).intersection(set(dati_colonna2_file2))
-
-    elementi_comuni_colonna2 = set()
-    for valore2_file1, valore2_file2 in zip(dati_colonna2_file1, dati_colonna2_file2):
-        if abs(valore2_file1 - valore2_file2) < soglia:
-            elementi_comuni_colonna2.add(valore2_file1)
-
-
-    return elementi_comuni_colonna1, elementi_comuni_colonna2
+    return elementi_comuni
 
 def leggi_colonna(file, colonna):
     with fits.open(file) as hdul:
@@ -61,3 +50,7 @@ def stampa_nomi_colonne(file):
         nomi_colonne = tabella.names
 
     print(f"Nomi delle colonne nel file {file}: {nomi_colonne}")
+
+def salva_su_file(elementi_comuni, nome_file_output):
+    np.savetxt(nome_file_output, elementi_comuni, fmt='%.18e', delimiter='\t')
+
