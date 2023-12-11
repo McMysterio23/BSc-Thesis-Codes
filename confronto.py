@@ -54,6 +54,10 @@ def main():
     print('La dimensione della intersezione è :', len(indici_ottenuti))
     save_array_to_txt(indici_ottenuti,'ElementiComuniC4.txt' )
 
+    lengthC4 = len(rab)
+    rapp = (len(indici_ottenuti))/(lengthC4)
+    print('Considerando che il catalogo C4 comprendeva ',lengthC4,' elementi, esattamente il ', rapp*100, '% degli oggetti era presente in SDSS/DR7')
+
 
 
       
