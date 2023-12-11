@@ -29,8 +29,8 @@ def main():
     rab,decb=data2["RAdeg"],data2["DEdeg"]
 
     #Inizializzo le variabili di zoom
-    k1,k2=0.01,0.001
-    incr = 0.0015
+    k1_initial = (1.5/3600)
+    incr = (0.5/3600)
 
     
     #inizializzo una lista vuota per contenere gli indici in comune 
@@ -38,12 +38,22 @@ def main():
 
     #cerco dunque di implementare il tutto per l'intero catalogo C4 memorizzando gli indici in un array per il momento
     for i in range(len(rab)):
+        k1 = k1_initial
+
         ival = np.where((ra >= rab[i]-k1) & (ra <= rab[i]+k1) & (dec >= decb[i]-k1) & (dec <= decb[i]+k1))[0]
         if(len(ival)==0 ):
-         k2=k2+incr
+         k1=k1+incr
+         ival = np.where((ra >= rab[i]-k1) & (ra <= rab[i]+k1) & (dec >= decb[i]-k1) & (dec <= decb[i]+k1))[0]
+         if (len(ival)==1):
+            indici_ottenuti.append(ival)
+
          continue
         elif (len(ival)>1):
-            k2=k2-incr
+            k1=k1-incr
+            ival = np.where((ra >= rab[i]-k1) & (ra <= rab[i]+k1) & (dec >= decb[i]-k1) & (dec <= decb[i]+k1))[0]
+            if (len(ival)==1):
+               indici_ottenuti.append(ival)
+
             continue
         elif (len(ival)==1):
            indici_ottenuti.append(ival)
@@ -51,8 +61,8 @@ def main():
     indici_ottenuti = np.array(indici_ottenuti)
     
     #Conclusione delle operazioni
-    print('La dimensione della intersezione è :', len(indici_ottenuti))
-    save_array_to_txt(indici_ottenuti,'ElementiComuniC4.txt' )
+    print('La dimensione della intersezione, entro 2 arcsec è di :', len(indici_ottenuti), 'elementi')
+    save_array_to_txt(indici_ottenuti,'Int_2_Asec.txt' )
 
     lengthC4 = len(rab)
     rapp = (len(indici_ottenuti))/(lengthC4)

@@ -1,1 +1,9 @@
-ciaone 
+Informazioni importanti sui dati trovati :
+
+ElementiComuniC4.txt : Contiene tutti gli oggetti dell'intersezione entro un range di 41.4 arcosecondi 
+ho trovato un totale di 452 elementi in comune, con una percentuale di elementi di C4 presenti nell'intersezione pari al 72.32%
+
+
+
+Int_2_Asec.txt : Contiene tutti gli elementi dell'intersezione entro un range di 2 arcosecondi
+Ho trovato un totale di 452 elementi in comune con una percentuale di elementi di C4 presenti nell'intersezione pari al 72.32%
