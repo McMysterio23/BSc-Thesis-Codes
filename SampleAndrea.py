@@ -7,7 +7,8 @@ from astropy.table import Column
 
 
 def main():
-    file="/Users/andreamaccarinelli/desktop/SDSS:DR7/gal_info_dr7_v5_2.fits"
+    PATH = '/Users/andreamaccarinelli/Desktop/SDSS/'
+    file=PATH+'gal_info_dr7_v5_2.fits'
     obj=fits.open(file)
     data=obj[1].data
     z=data["Z"]
