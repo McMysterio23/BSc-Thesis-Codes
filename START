@@ -7,3 +7,8 @@ ho trovato un totale di 452 elementi in comune, con una percentuale di elementi 
 
 Int_2_Asec.txt : Contiene tutti gli elementi dell'intersezione entro un range di 2 arcosecondi
 Ho trovato un totale di 452 elementi in comune con una percentuale di elementi di C4 presenti nell'intersezione pari al 72.32%
+
+
+
+INFORMAZIONE DI SERVIZIO :
+Affinchè sia possibile utilizzare il codice Label_to_Data.py è necessario rimuovere le parentesi quadre

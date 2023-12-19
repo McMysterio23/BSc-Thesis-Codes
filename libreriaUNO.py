@@ -32,3 +32,26 @@ def save_array_to_txt(array, filename):
     with open(filename, 'w') as file:
         for element in array:
             file.write(str(element) + '\n')
+
+
+
+def leggi_file_txt(nome_file, numero_colonne):
+    # Inizializza un array vuoto
+    dati = []
+
+    # Apri il file in modalità lettura
+    with open(nome_file, 'r') as file:
+        # Itera sulle righe del file
+        for riga in file:
+            # Suddividi la riga in colonne utilizzando lo spazio come delimitatore
+            colonne = riga.split()
+
+            # Verifica se il numero di colonne è coerente con quello specificato
+            if len(colonne) == numero_colonne:
+                # Converti le colonne in numeri float e aggiungi alla lista dati
+                dati.append([float(colonna) for colonna in colonne])
+            else:
+                print(f"Attenzione: La riga '{riga}' non ha il numero corretto di colonne.")
+
+    # Restituisci l'array con i dati
+    return dati
