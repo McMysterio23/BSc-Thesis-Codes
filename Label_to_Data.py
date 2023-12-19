@@ -25,6 +25,17 @@ def main():
 
     Indici = leggi_file_txt(Indices, 1)
     
+    dimensioni = len(Indici)
+    Matricione = np.ones((Indici,2))
+    for i in dimensioni :
+       for j in range(2):
+          if (j=0): 
+           Matricione[i,j] = plateID[i]
+
+          if(j=1):
+             
+             
+    
 
 
 
