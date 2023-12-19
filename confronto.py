@@ -4,7 +4,8 @@ from astropy.io import fits
 from astropy.table import QTable
 from astropy.table import Column
 
-from libreriaUNO import save_array_to_txt
+from libreriaUNO import salva_array_senza_parentesi
+
 
 
 
@@ -62,7 +63,7 @@ def main():
     
     #Conclusione delle operazioni
     print('La dimensione della intersezione, entro 2 arcsec è di :', len(indici_ottenuti), 'elementi')
-    save_array_to_txt(indici_ottenuti,'Int_2_Asec.txt' )
+    salva_array_senza_parentesi('ElementiComuniC4.txt', indici_ottenuti )
 
     lengthC4 = len(rab)
     rapp = (len(indici_ottenuti))/(lengthC4)

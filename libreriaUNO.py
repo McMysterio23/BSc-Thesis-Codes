@@ -55,3 +55,9 @@ def leggi_file_txt(nome_file, numero_colonne):
 
     # Restituisci l'array con i dati
     return dati
+
+
+
+def salva_array_senza_parentesi(file_path, array):
+    # Salva l'array nel file di testo senza parentesi quadre
+    np.savetxt(file_path, array, delimiter=' ', fmt='%g')

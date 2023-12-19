@@ -4,7 +4,7 @@ from astropy.io import fits
 from astropy.table import QTable
 from astropy.table import Column
 
-from libreriaUNO import save_array_to_txt
+from libreriaUNO import salva_array_senza_parentesi
 from libreriaUNO import leggi_file_txt
 
 
@@ -25,29 +25,22 @@ def main():
 
     Indici = leggi_file_txt(Indices, 1)
     
+    #Popolo l'array di dimensioni len(indici) x 2 con i dati di plateID e fiberID relativi agli indici che mi interessano
     dimensioni = len(Indici)
-    Matricione = np.ones((Indici,2))
-    for i in dimensioni :
+    Matricione = np.ones((dimensioni,2))
+    for i in range(dimensioni) :
        for j in range(2):
-          if (j=0): 
-           Matricione[i,j] = plateID[i]
-
-          if(j=1):
-             
-             
+          if(j==0):
+             Matricione[i,j] = plateID[i]
+          elif(j==1):
+             Matricione[i,j] = fiberID[i]
     
-
-
-
-
-
-     
     
-
-
-
-
-
+    #vado infine a creare un file .txt che contenga i dati che ho ottenuto 
+   
+    salva_array_senza_parentesi('Matricione.txt', Matricione)
+   
+             
 
 if __name__ == "__main__":
 
