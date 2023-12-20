@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import os
 from astropy.table import QTable
 from astropy.table import Column
+from astropy.table import Table
+
 
 from libreriaUNO import leggi_file_txt
 
@@ -87,7 +89,21 @@ def Intersection_Array_Type1(Colonna="Nomecolonna"):
     
     return intersection
 
+def Aggiungi_Colonna(arr1, Arr2, arr3, arr4, arr5, arr6, arr7=np.ones(dimensione), arr8=np.zeros(dimensione), arr9=np.zeros(dimensione),
+                     nome1='Nome Colonna1', nome2='Nome Colonna2', nome3='Nome Colonna3',
+                     nome4='Nome Colonna4', nome5='Nome Colonna5', nome6='Nome Colonna6',
+                     nome7='Nome Colonna7', nome8='Nome Colonna8', nome9='Nome Colonna9'):
+
+    # Assicurati che gli array siano di tipo sequenza (es. liste o array NumPy)
+    for arr in [arr1, Arr2, arr3, arr4, arr5, arr6]:
+        if not isinstance(arr, (list, np.ndarray)):
+            raise ValueError("Gli array devono essere di tipo sequenza (es. liste o array NumPy)")    
 
 
+ #Sample_derived = Table([Column(indiciint2, name='Indici_INFO'), Column(coordinate[:,0], name='PlateID'), Column(coordinate[:,1], name='FiberID'),
+                            #Column(arr1, name=nome1), Column(Arr2, name= nome2), Column(arr3, name = nome3), Column(arr4, name = nome4),
+                            #Column (arr5, name = nome5), Column(arr6, name = nome6), Column(arr7, name= nome7), Column(arr8, name = nome8),
+                            #Column(arr9, name = nome9)])
+    #return Sample_derived
 
-
+    
