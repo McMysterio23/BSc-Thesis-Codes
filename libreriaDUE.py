@@ -72,13 +72,13 @@ def plot_scatter(array1, array2, title="Scatter Plot", x_label="X", y_label="Y")
 
 def Intersection_Array_Type1(Colonna="Nomecolonna"):
     """
-    Crea un array basato sull'intersezione, ricevendo solo il nome della colonna che si vuole rendere array
+    Crea un array basato sull'intersezione, ricevendo solo il nome della colonna che si vuole rendere array.
+    NOTA BENE : LA COLONNA DEVE CONTENERE DEI SINGOLI VALORI, NON PUò CONTENERE OGGETTI CHE NON SONO VETTORI SEMPLICI !
     """
     #Apro i file fits che mi interessano 
     obj=fits.open(INFO)
     data=obj[1].data
     arr=data[Colonna]
-
     #creo l'array
     intersection = np.ones(dimensione)
 
@@ -100,10 +100,22 @@ def Aggiungi_Colonna(arr1, Arr2, arr3, arr4, arr5, arr6, arr7=np.ones(dimensione
             raise ValueError("Gli array devono essere di tipo sequenza (es. liste o array NumPy)")    
 
 
- #Sample_derived = Table([Column(indiciint2, name='Indici_INFO'), Column(coordinate[:,0], name='PlateID'), Column(coordinate[:,1], name='FiberID'),
-                            #Column(arr1, name=nome1), Column(Arr2, name= nome2), Column(arr3, name = nome3), Column(arr4, name = nome4),
-                            #Column (arr5, name = nome5), Column(arr6, name = nome6), Column(arr7, name= nome7), Column(arr8, name = nome8),
-                            #Column(arr9, name = nome9)])
-    #return Sample_derived
+    Sample_derived = Table([Column(indiciint2, name='Indici_INFO'), Column(coordinate[:,0], name='PlateID'), Column(coordinate[:,1], name='FiberID'),
+                            Column(arr1, name=nome1), Column(Arr2, name= nome2), Column(arr3, name = nome3), Column(arr4, name = nome4),
+                            Column (arr5, name = nome5), Column(arr6, name = nome6), Column(arr7, name= nome7), Column(arr8, name = nome8),
+                            Column(arr9, name = nome9)])
+    return Sample_derived
 
-    
+def Aggiungi_Colonna6(arr1, arr2, arr3, arr4, arr5, arr6, nome1='Nome Colonna1', nome2='Nome Colonna2', nome3='Nome Colonna3',
+                     nome4='Nome Colonna4', nome5='Nome Colonna5', nome6='Nome Colonna6'):
+
+    # Assicurati che gli array siano di tipo sequenza (es. liste o array NumPy)
+    for arr in [arr1, arr2, arr3, arr4, arr5, arr6]:
+        if not isinstance(arr, (list, np.ndarray)):
+            raise ValueError("Gli array devono essere di tipo sequenza (es. liste o array NumPy)")    
+
+    Sample_derived = Table([Column(indiciint2, name='Indici_INFO'), Column(coordinate[:, 0], name='PlateID'),
+                            Column(coordinate[:, 1], name='FiberID'), Column(arr1, name=nome1),
+                            Column(arr2, name=nome2), Column(arr3, name=nome3), Column(arr4, name=nome4),
+                            Column(arr5, name=nome5), Column(arr6, name=nome6)])
+    return Sample_derived
