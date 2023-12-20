@@ -119,3 +119,58 @@ def Aggiungi_Colonna6(arr1, arr2, arr3, arr4, arr5, arr6, nome1='Nome Colonna1',
                             Column(arr2, name=nome2), Column(arr3, name=nome3), Column(arr4, name=nome4),
                             Column(arr5, name=nome5), Column(arr6, name=nome6)])
     return Sample_derived
+
+def AddColumn(array_esistente, nuova_colonna, nome_colonna):
+    """
+    Aggiunge una nuova colonna a un array esistente.
+
+    Parametri:
+    - array_esistente: array numpy esistente a cui aggiungere la colonna.
+    - nuova_colonna: array numpy o lista rappresentante la nuova colonna da aggiungere.
+    - nome_colonna: nome della nuova colonna.
+
+    Restituisce:
+    - Un nuovo array con la colonna aggiunta.
+    """
+
+    # Verifica che l'array esistente sia bidimensionale
+    if len(array_esistente.shape) != 2:
+        raise ValueError("L'array esistente deve essere bidimensionale.")
+
+    # Verifica che la nuova colonna abbia la stessa lunghezza dell'array esistente
+    if len(nuova_colonna) != array_esistente.shape[0]:
+        raise ValueError("La lunghezza della nuova colonna deve essere uguale alla lunghezza dell'array esistente.")
+
+    # Crea una copia dell'array esistente
+    nuovo_array = np.copy(array_esistente)
+
+    # Aggiunge la nuova colonna al nuovo array
+    nuovo_array = np.column_stack((nuovo_array, nuova_colonna))
+
+    # Aggiunge il nome della colonna
+    nome_colonne = list(array_esistente.dtype.names) + [nome_colonna]
+    nuovo_array.dtype.names = nome_colonne
+
+    return nuovo_array
+
+
+def Intersection_Array_Type2(Indice_file, namecols = 'Nome della colonna da estrarre', Intersezione = True):
+    """
+    Questa funzione va a restituire un'array con i dati della colonna richiesta, e presenti nell'insieme intersezione.
+    Questo avviene di default se non si imposta diversamente il valore dell'ultimo argomento della funzione che nel caso venga 
+    impostato sul valore di false allora restituirà le informazioni richieste al di fuori dell'insieme intersezione !!
+
+    Ricordati dunque di impostare come primo argomento il numero del file che ti interessa, qui di seguito l'organizzazione del database :
+
+    Indice = 1 ) File Fits LINE
+    Indice = 2 ) File Fits INDX
+    Indice = 3 ) File Fits SFRS
+    Indice = 4 ) File Fits SPECSFR
+    Indice = 5 ) File Fits TOTLGM
+    Indice = 6 ) File Fits SPECMAG
+    Indice = 7 ) File Fits FIBLGM
+    Indice = 8 ) File Fits FIBOH
+
+    """
+
+    s=5
