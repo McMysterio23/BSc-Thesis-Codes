@@ -19,8 +19,12 @@ def main():
     Errore_Sigma = Intersection_Array_Type1('v_disp_err')
     SN_Medio = Intersection_Array_Type1('sn_median')
     Reddening = Intersection_Array_Type1('e_bv_sfd')
-    
 
+
+
+    #vado a creare due array distinti potenzialmente : uno privo dei dati elaborati ed un altro con essi inclusi
+    #PROBLEMA DA RISOLVERE : CONTROLLARE CHE NON ESISTANO DEI NOMI DI COLONNE IN FILE DIVERSI CHE SONO DEGENERI !! 
+    #CONTROLLA IN PARTICOLARE I FILE FIBOH, TOTLGM E COMPAGNIA BELLA 
     Structured = Aggiungi_Colonna6(Redshift, Errore_Redshift, Sigma, Errore_Sigma, SN_Medio, 
                                   Reddening, 'z', 'z_err','v_disp', 'v_disp_err',
                                   'sn_median', 'e_bv_sfd') 

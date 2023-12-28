@@ -24,6 +24,7 @@ TOTLGM = PATHDATA+'/totlgm_dr7_v5_2.fits'
 SPECMAG = PATHDATA+'/gal_specmag_dr7_v5_2.fits'
 FIBLGM = PATHDATA+'/fiblgm_dr7_v5_2.fits'
 FIBOH = PATHDATA+'/gal_fiboh_dr7_v5_2.fits'
+Lista_Di_Percorsi_Ai_Dati = [INFO, LINE, INDX, SFRS, SPECSFR, TOTLGM, SPECMAG, FIBLGM, FIBOH]
 Intersezione = PATH+"Matricione.txt"
 indices = PATH+"/Int_2_Asec.txt"
 
@@ -75,7 +76,7 @@ def Intersection_Array_Type1(Colonna="Nomecolonna"):
     Crea un array basato sull'intersezione, ricevendo solo il nome della colonna che si vuole rendere array.
     NOTA BENE : LA COLONNA DEVE CONTENERE DEI SINGOLI VALORI, NON PUò CONTENERE OGGETTI CHE NON SONO VETTORI SEMPLICI !
     """
-    #Apro i file fits che mi interessano 
+    #Apro il file fits che mi interessa
     obj=fits.open(INFO)
     data=obj[1].data
     arr=data[Colonna]
@@ -173,4 +174,32 @@ def Intersection_Array_Type2(Indice_file, namecols = 'Nome della colonna da estr
 
     """
 
-    s=5
+
+
+    #PARTE DI CODICE DA CONTROLLARE E TESTARE, POTREBBE NON FUNZIONARE !!!
+    #HO COMUNQUE CAPITO CHE PER LA RICERCA ANCHE NELLA TYPE2 SONO SUFFICIENTI GLI INDICI DELL'ARRAY !!!
+    if (Intersezione == False):
+        s=5 #Inizio parte di codice per gli elementi al di fuori dell'intersezione 
+    else:
+        #Apro il file fits che mi interessa
+        obj=fits.open(Lista_Di_Percorsi_Ai_Dati[Indice_file])
+        data=obj[1].data
+        arr=data[namecols]
+        
+        #creo il sample da riempire 
+        intersection = np.ones(dimensione)
+
+        #Popolo l'array
+        for i in range(dimensione):
+            punto = int (indiciint2[i,0])
+            intersection[i] = arr[punto]
+    
+        return intersection
+
+
+
+
+
+    
+    
+    
