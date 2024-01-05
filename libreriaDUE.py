@@ -222,10 +222,14 @@ def Intersection_Array_Type2(Indice_file, namecols = 'Nome della colonna da estr
     # Crea il sample da riempire
     intersection = np.ones(dimensione)
 
-    # Popola l'array
+    # Popola l'array con i valori delle colonne filtrate
     for i in range(dimensione):
-        punto = int(indiciint2[i, 0])
-        intersection[i] = arr[punto]
+        for colonna in colonne_float_len1:
+            punto = int(indiciint2[i, 0])
+            
+            rra = data[colonna]
+            intersection[i] = rra[punto]
+
 
     return intersection
 

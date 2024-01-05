@@ -35,6 +35,10 @@ def main():
        nomi_colonne = Lettura_Colonne_RawDATA(i)
        ArrayNomiColonne.append(nomi_colonne)
 
+
+
+    #Testato solo fino alla seconda iterazione, essendo che ci ha messo 15 minuti solo così meglio implementare la lettura
+    #del file txt aggiungendo volta per volta le informazioni dei nuovi file.
     for i in range(8):
       j=i+1
 
