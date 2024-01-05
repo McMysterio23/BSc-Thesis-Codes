@@ -10,6 +10,7 @@ from libreriaUNO import leggi_file_txt
 from libreriaDUE import plot_and_save_scatter
 from libreriaDUE import plot_scatter
 from libreriaDUE import Intersection_Array_Type1, Aggiungi_Colonna, Aggiungi_Colonna6, AddColumn, Lettura_Colonne_RawDATA, Intersection_Array_Type2
+from libreriaDUE import Aggiungi_Colonna6plus
 
 def main():
 
@@ -37,11 +38,13 @@ def main():
     for i in range(8):
       j=i+1
 
-      if (j>1):
+      if (j>2):
          break
       
     
       lunghezza_lista = len(ArrayNomiColonne[j])
+      
+      
       for k in range(lunghezza_lista):
          if (ArrayNomiColonne[j][k] != 'PLATEID') and (ArrayNomiColonne[j][k] != 'FIBERID'):
             Colonna_Estratta = Intersection_Array_Type2(j, ArrayNomiColonne[j][k])
@@ -49,10 +52,12 @@ def main():
 
     
     
-   
+
+    
     
 
-    #salva_array_senza_parentesi('/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/IntersezioneInfo.txt', Structured)
+    
+    salva_array_senza_parentesi('/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/IntersezioneInfo.txt', Structured)
 
 
     

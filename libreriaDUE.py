@@ -85,7 +85,7 @@ def Intersection_Array_Type1(Colonna="Nomecolonna"):
 
     #Popolo l'array
     for i in range(dimensione):
-       punto = int (indiciint2[i,0])
+       punto = int (indiciint2[i])
        intersection[i] = arr[punto]
     
     return intersection
@@ -119,40 +119,54 @@ def Aggiungi_Colonna6(arr1, arr2, arr3, arr4, arr5, arr6, nome1='Nome Colonna1',
                             Column(coordinate[:, 1], name='FiberID'), Column(arr1, name=nome1),
                             Column(arr2, name=nome2), Column(arr3, name=nome3), Column(arr4, name=nome4),
                             Column(arr5, name=nome5), Column(arr6, name=nome6)])
+    
     return Sample_derived
-
-def AddColumn(array_esistente, nuova_colonna, nome_colonna):
     """
-    Aggiunge una nuova colonna a un array esistente.
+    # Estrai un array unidimensionale da 'Indici_INFO'
+    indici_info_unidimensionale = np.array([np.array(item) for item in Sample_derived['Indici_INFO']])
+
+    # Rimuovi la colonna 'Indici_INFO' dalla tabella
+    Sample_derived.remove_column('Indici_INFO')
+
+    # Converte la tabella in un DataFrame di pandas
+    dataframe = Sample_derived.to_pandas()
+
+    # Aggiungi la nuova colonna unidimensionale a 'Indici_INFO'
+    dataframe['Indici_INFO'] = indici_info_unidimensionale
+
+    # Restituisci un array NumPy
+    return dataframe.values
+    """
+
+def AddColumn(table_esistente, nuova_colonna, nome_colonna):
+    """
+    Aggiunge una nuova colonna a un oggetto Table esistente.
 
     Parametri:
-    - array_esistente: array numpy esistente a cui aggiungere la colonna.
-    - nuova_colonna: array numpy o lista rappresentante la nuova colonna da aggiungere.
-    - nome_colonna: nome della nuova colonna.
+    - table_esistente: Oggetto Table a cui aggiungere la colonna.
+    - nuova_colonna: Array numpy o lista rappresentante la nuova colonna da aggiungere.
+    - nome_colonna: Nome della nuova colonna.
 
     Restituisce:
-    - Un nuovo array con la colonna aggiunta.
+    - Un nuovo oggetto Table con la colonna aggiunta.
     """
 
-    # Verifica che l'array esistente sia bidimensionale
-    if len(array_esistente.shape) != 2:
-        raise ValueError("L'array esistente deve essere bidimensionale.")
+    # Verifica se table_esistente è un oggetto Table
+    if not isinstance(table_esistente, Table):
+        raise ValueError("L'argomento 'table_esistente' deve essere un oggetto Table.")
 
-    # Verifica che la nuova colonna abbia la stessa lunghezza dell'array esistente
-    if len(nuova_colonna) != array_esistente.shape[0]:
-        raise ValueError("La lunghezza della nuova colonna deve essere uguale alla lunghezza dell'array esistente.")
+    # Verifica se nuova_colonna è una sequenza (array o lista)
+    if not isinstance(nuova_colonna, (np.ndarray, list)):
+        raise ValueError("La nuova colonna deve essere una sequenza (array o lista).")
 
-    # Crea una copia dell'array esistente
-    nuovo_array = np.copy(array_esistente)
+    # Verifica se la lunghezza di nuova_colonna è la stessa delle righe in table_esistente
+    if len(nuova_colonna) != len(table_esistente):
+        raise ValueError("La lunghezza della nuova colonna deve essere la stessa delle righe in table_esistente.")
 
-    # Aggiunge la nuova colonna al nuovo array
-    nuovo_array = np.column_stack((nuovo_array, nuova_colonna))
+    # Aggiunge la nuova colonna a table_esistente
+    table_esistente[nome_colonna] = Column(nuova_colonna, name=nome_colonna)
 
-    # Aggiunge il nome della colonna
-    nome_colonne = list(array_esistente.dtype.names) + [nome_colonna]
-    nuovo_array.dtype.names = nome_colonne
-
-    return nuovo_array
+    return table_esistente
 
 
 def Intersection_Array_Type2(Indice_file, namecols = 'Nome della colonna da estrarre', Intersezione = True):
@@ -174,8 +188,8 @@ def Intersection_Array_Type2(Indice_file, namecols = 'Nome della colonna da estr
 
     """
 
-
-
+    #devo implementare ancora la selezione dell'insieme intersezione o meno !!!! Qui trovi lo switch che ti fa la cosa !!
+    """
     #PARTE DI CODICE DA CONTROLLARE E TESTARE, POTREBBE NON FUNZIONARE !!!
     #HO COMUNQUE CAPITO CHE PER LA RICERCA ANCHE NELLA TYPE2 SONO SUFFICIENTI GLI INDICI DELL'ARRAY !!!
     if (Intersezione == False):
@@ -195,6 +209,28 @@ def Intersection_Array_Type2(Indice_file, namecols = 'Nome della colonna da estr
             intersection[i] = arr[punto]
     
         return intersection
+        """
+    
+    # Apro il file FITS che ti interessa
+    obj = fits.open(Lista_Di_Percorsi_Ai_Dati[Indice_file])
+    data = obj[1].data
+    arr = data[namecols]
+
+    # Filtra solo le colonne di tipo float e lunghezza 1
+    colonne_float_len1 = [colonna for colonna in data.columns.names if data[colonna].dtype.kind == 'f' and data[colonna].shape == (len(data),)]
+
+    # Crea il sample da riempire
+    intersection = np.ones(dimensione)
+
+    # Popola l'array
+    for i in range(dimensione):
+        punto = int(indiciint2[i, 0])
+        intersection[i] = arr[punto]
+
+    return intersection
+
+    
+
 
 def Lettura_Colonne_RawDATA(indice):
     """
@@ -207,3 +243,25 @@ def Lettura_Colonne_RawDATA(indice):
     #àprint(nomi_colonne)
     return nomi_colonne
 
+def Aggiungi_Colonna6plus(arr1, arr2, arr3, arr4, arr5, arr6, indiciint2, coordinate, nome1='Nome Colonna1', nome2='Nome Colonna2', nome3='Nome Colonna3',
+                     nome4='Nome Colonna4', nome5='Nome Colonna5', nome6='Nome Colonna6'):
+
+    # Assicurati che gli array siano di tipo sequenza (es. liste o array NumPy)
+    for arr in [arr1, arr2, arr3, arr4, arr5, arr6]:
+        if not isinstance(arr, (list, np.ndarray)):
+            raise ValueError("Gli array devono essere di tipo sequenza (es. liste o array NumPy)")
+
+    # Crea una tabella Astropy
+    coo1 = np.array(coordinate[:,0])
+    coo2 = np.array(coordinate[:,1])
+
+    Sample_derived = Table([Column(indiciint2, name='Indici_INFO'), Column(coo1, name='PlateID'),
+                            Column(coo2, name='FiberID'), Column(arr1, name=nome1),
+                            Column(arr2, name=nome2), Column(arr3, name=nome3), Column(arr4, name=nome4),
+                            Column(arr5, name=nome5), Column(arr6, name=nome6)])
+
+    # Converte la tabella in un DataFrame di pandas
+    dataframe = Sample_derived.to_pandas()
+
+    # Restituisci un array NumPy
+    return dataframe.values
