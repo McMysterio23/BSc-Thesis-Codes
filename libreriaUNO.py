@@ -62,3 +62,22 @@ def salva_array_senza_parentesi(file_path, array):
     # Salva l'array nel file di testo senza parentesi quadre
     #np.savetxt(file_path, array, delimiter=' ', fmt='%g')
     np.savetxt(file_path, array, delimiter='\t', header='\t'.join(array.dtype.names), comments='', fmt='%g')
+
+
+def leggi_nomi_colonne(file_fits):
+    # Apri il file FITS
+    hdul = fits.open(file_fits)
+
+    # Se il file FITS contiene una tabella
+    if isinstance(hdul[1], fits.BinTableHDU):
+        # Estrai i nomi delle colonne
+        nomi_colonne = hdul[1].columns.names
+    else:
+        # Se il file FITS contiene solo un'immagine, usa i nomi delle keywords dell'header
+        nomi_colonne = hdul[0].header.keys()
+
+    # Chiudi il file FITS
+    hdul.close()
+
+    return nomi_colonne
+

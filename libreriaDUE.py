@@ -7,7 +7,7 @@ from astropy.table import Column
 from astropy.table import Table
 
 
-from libreriaUNO import leggi_file_txt
+from libreriaUNO import leggi_file_txt, leggi_nomi_colonne
 
 
 #Inizializzo i percorsi ai file che utilizzerò
@@ -196,10 +196,14 @@ def Intersection_Array_Type2(Indice_file, namecols = 'Nome della colonna da estr
     
         return intersection
 
+def Lettura_Colonne_RawDATA(indice):
+    """
+    Questa funzione restituisce un array contenente i nomi di tutte le colonne presenti nel file fits di dati Grezzi
+    presente all'indice i della lista di percorsi Lista_Di_Percorsi_Ai_Dati
+    """
 
+    nomi_colonne = leggi_nomi_colonne(Lista_Di_Percorsi_Ai_Dati[indice])
+    #print('I nomi delle colonne nel file :', indice, 'sono :')
+    #àprint(nomi_colonne)
+    return nomi_colonne
 
-
-
-    
-    
-    
