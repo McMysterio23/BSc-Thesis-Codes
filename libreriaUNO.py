@@ -1,5 +1,6 @@
 from astropy.io import fits
 import numpy as np
+import csv
 
 
 def leggi_file_fits(file_path):
@@ -81,3 +82,61 @@ def leggi_nomi_colonne(file_fits):
 
     return nomi_colonne
 
+def leggi_file_completo_txt(nome_file):
+    # Inizializza un array vuoto
+    dati = []
+
+    # Apri il file in modalità lettura
+    with open(nome_file, 'r') as file:
+        # Itera sulle righe del file
+        for riga in file:
+            # Suddividi la riga in colonne utilizzando lo spazio come delimitatore
+            colonne = riga.split()
+
+            # Converti le colonne in numeri float e aggiungi alla lista dati
+            dati.append([float(colonna) for colonna in colonne])
+
+    # Restituisci l'array con i dati
+    return dati
+
+def leggi_file_csv(file_path):
+    """
+    Legge File in formato csv, in cui la prima riga è costituita dai nomi delle colonne
+    Viene Utilizzato come separatore la classica Virgola !!!
+    """
+    with open(file_path, 'r') as file:
+        # Leggi la prima riga del file, NB il carattere separatore impostato per la prima riga è lo spazio \t
+        colonne = file.readline().strip().split(',')
+        
+        # Utilizza il modulo csv per leggere il resto del file
+        reader = csv.DictReader(file, fieldnames=colonne)
+        
+        # Inizializza un array per salvare i dati
+        dati = []
+        
+        # Leggi le righe rimanenti e aggiungi i dati all'array
+        for riga in reader:
+            dati.append(riga)
+    
+    return colonne, dati
+
+def leggi_file_tsv(file_path):
+    """
+    Legge File in formato tsv, in cui la prima riga è costituita dai nomi delle colonne
+    Viene Utilizzato come separatore il carattere dello spazio "\t" !!!
+    """
+    with open(file_path, 'r') as file:
+        # Leggi la prima riga del file
+        colonne = file.readline().strip().split('\t')
+        
+        # Utilizza il modulo csv per leggere il resto del file
+        reader = csv.DictReader(file, fieldnames=colonne, delimiter='\t')
+        
+        # Inizializza un array per salvare i dati
+        dati = []
+        
+        # Leggi le righe rimanenti e aggiungi i dati all'array
+        for riga in reader:
+            dati.append(riga)
+    
+    return colonne, dati
