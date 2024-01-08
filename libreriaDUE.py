@@ -269,3 +269,28 @@ def Aggiungi_Colonna6plus(arr1, arr2, arr3, arr4, arr5, arr6, indiciint2, coordi
 
     # Restituisci un array NumPy
     return dataframe.values
+
+
+
+def Crossing(Indice_file, namecols='Nome della colonna da estrarre', Intersezione=True):
+    # Apro il file FITS che ti interessa
+    obj = fits.open(Lista_Di_Percorsi_Ai_Dati[Indice_file])
+    data = obj[1].data
+    arr = data[namecols]
+
+    # Filtra solo le colonne di tipo float e lunghezza 1
+    colonne_float_len1 = [colonna for colonna in data.columns.names if data[colonna].dtype.kind == 'f' and data[colonna].shape == (len(data),)]
+
+    # Ottieni la dimensione dai dati
+    dimensione = len(indiciint2)
+
+        # Creazione di un array 2D per contenere i valori estratti da tutte le colonne per ciascun indice
+    intersection = np.ones((dimensione, len(colonne_float_len1)))
+
+    # Popola l'array con i valori delle colonne filtrate
+    for i in range(dimensione):
+        for j, colonna in enumerate(colonne_float_len1):
+            punto = int(indiciint2[i, 0])
+            rra = data[colonna]
+            intersection[i, j] = rra[punto]
+    return intersection

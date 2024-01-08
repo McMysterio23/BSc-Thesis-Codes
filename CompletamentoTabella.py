@@ -15,7 +15,7 @@ from libreriaUNO import leggi_file_txt, leggi_file_completo_txt, leggi_file_csv,
 from libreriaDUE import plot_and_save_scatter
 from libreriaDUE import plot_scatter
 from libreriaDUE import Intersection_Array_Type1, Aggiungi_Colonna, Aggiungi_Colonna6, AddColumn, Lettura_Colonne_RawDATA, Intersection_Array_Type2
-from libreriaDUE import Aggiungi_Colonna6plus
+from libreriaDUE import Aggiungi_Colonna6plus, Crossing
 
 
 def main():
@@ -25,39 +25,49 @@ def main():
     nomi_colonne, RAWTabella = leggi_file_tsv(FILE_PATH)
     #Conviene Tenere una struttura di tipo Array di liste essendo che le colonne vengono identificate con le stringhe del relativo titolo
     #Questo è un esempio di come si risale al campo PLATEID del primo oggetto 
-    print(RAWTabella[0][nomi_colonne[1]])
+    #print(RAWTabella[0][nomi_colonne[1]])
+
 
     #creo un oggetto Table con quanto gia creato :
     mia_tabella_astropy = Table(RAWTabella, names=nomi_colonne)
     #NB quando vuoi accedere ad un elemento preciso dell'oggetto Table indica nella prima breket il nome della colonna e nel secondo l'indice di riga
-    print(mia_tabella_astropy[nomi_colonne[1]][0])
+    #print(mia_tabella_astropy[nomi_colonne[1]][0])
+    
 
-
-    ArrayNomiColonne = []
     #Indice del file di dati grezzi da leggere 
     Indice_RAW = 3
-    nomi_colonne = Lettura_Colonne_RawDATA(Indice_RAW)
-    ArrayNomiColonne.append(nomi_colonne)
+    nomi_colonne_SDSS = Lettura_Colonne_RawDATA(Indice_RAW)
     
-    lunghezza_lista = len(nomi_colonne)
-    
-    # Inizializzazione di TabellaCreata con le giuste dimensioni
-    TabellaCreata = Table()
-    #TabellaCreata.add_row([None] * lunghezza_lista)  # Aggiungi una riga vuota per ogni colonna
+    lunghezza_lista_SDSS = len(nomi_colonne_SDSS)
+    #print(len(Intersection_Array_Type2(3, nomi_colonne_SDSS[1])))
+    #print(nomi_colonne_SDSS)
 
-    for k in range(lunghezza_lista):
-        if (nomi_colonne[k] != 'PLATEID') and (nomi_colonne[k] != 'FIBERID'):
-            Colonna_Estratta = Intersection_Array_Type2(Indice_RAW, nomi_colonne[k])
-
-         # Verifica della lunghezza della colonna
-        if len(Colonna_Estratta) == len(TabellaCreata):
-            mia_colonna = Column(data=Colonna_Estratta, name=nomi_colonne[k])
-            TabellaCreata[nomi_colonne[k]] = mia_colonna
-        else:
-            print(f"Lunghezza della colonna {nomi_colonne[k]} non valida.")
     
+    colonne = [Column(Crossing(Indice_RAW, nome_colonna), name=nome_colonna) for nome_colonna in nomi_colonne_SDSS]
+    TabellaCreata = Table(colonne)
+    
+    
+    # Creazione di colonne usando astropy.table.Column
+
+
+    # Creazione della tabella usando astropy.table.Table
+    TabellaCreata = Table(colonne)
+
+    colonna1 = Crossing(3, nomi_colonne_SDSS[0])
+    colonna2 = Crossing(3, nomi_colonne_SDSS[1])
+    #print(colonna1[0], colonna2[0])
+
+    # Stampa le colonne
+    #print("Nomi delle colonne:", TabellaCreata.colnames)
+
+    # Stampa le prime 5 righe della tabella
+    #for i in range(5):
+    #    print(f"Riga {i}: {TabellaCreata[i]}")
+
+    
+        
+
     salva_array_senza_parentesi('/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/Star_Formating_Ratios_Intersezione.txt', TabellaCreata)
-    
 
     
 
