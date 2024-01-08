@@ -33,6 +33,32 @@ def main():
     print(mia_tabella_astropy[nomi_colonne[1]][0])
 
 
+    ArrayNomiColonne = []
+    #Indice del file di dati grezzi da leggere 
+    Indice_RAW = 3
+    nomi_colonne = Lettura_Colonne_RawDATA(Indice_RAW)
+    ArrayNomiColonne.append(nomi_colonne)
+    
+    lunghezza_lista = len(nomi_colonne)
+    
+    # Inizializzazione di TabellaCreata con le giuste dimensioni
+    TabellaCreata = Table()
+    #TabellaCreata.add_row([None] * lunghezza_lista)  # Aggiungi una riga vuota per ogni colonna
+
+    for k in range(lunghezza_lista):
+        if (nomi_colonne[k] != 'PLATEID') and (nomi_colonne[k] != 'FIBERID'):
+            Colonna_Estratta = Intersection_Array_Type2(Indice_RAW, nomi_colonne[k])
+
+         # Verifica della lunghezza della colonna
+        if len(Colonna_Estratta) == len(TabellaCreata):
+            mia_colonna = Column(data=Colonna_Estratta, name=nomi_colonne[k])
+            TabellaCreata[nomi_colonne[k]] = mia_colonna
+        else:
+            print(f"Lunghezza della colonna {nomi_colonne[k]} non valida.")
+    
+    salva_array_senza_parentesi('/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/Star_Formating_Ratios_Intersezione.txt', TabellaCreata)
+    
+
     
 
 
