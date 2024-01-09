@@ -1,3 +1,8 @@
+"""
+Questo Codice deve essere eseguito dando da linea di comando la posizione nell'array degli indici dell'indice che si 
+vuole stampare
+"""
+
 from libreriaUNO import leggi_file_txt, leggi_nomi_colonne
 import numpy as np
 import sys

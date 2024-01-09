@@ -40,13 +40,12 @@ def main():
     nomi_colonne_SDSS = Lettura_Colonne_RawDATA(Indice_RAW)
     
     lunghezza_lista_SDSS = len(nomi_colonne_SDSS)
-    #print(len(Intersection_Array_Type2(3, nomi_colonne_SDSS[1])))
     #print(nomi_colonne_SDSS)
 
     
     Deposit = Crossing(8)
 
-    #Non sta prendendo la colonna delle flag con l'indice raw pari a 4
+ 
     #print(Deposit.shape)
     df = pd.DataFrame(Deposit, columns=nomi_colonne_SDSS)
     #print(df.columns)
