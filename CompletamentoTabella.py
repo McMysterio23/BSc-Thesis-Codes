@@ -3,6 +3,7 @@ Lo scopo di questo programma è quello di andare a leggere il file .txt gia crea
 """
 
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from astropy.io import fits
 from astropy.table import QTable
@@ -35,7 +36,7 @@ def main():
     
 
     #Indice del file di dati grezzi da leggere 
-    Indice_RAW = 3
+    Indice_RAW = 8
     nomi_colonne_SDSS = Lettura_Colonne_RawDATA(Indice_RAW)
     
     lunghezza_lista_SDSS = len(nomi_colonne_SDSS)
@@ -43,32 +44,21 @@ def main():
     #print(nomi_colonne_SDSS)
 
     
-    colonne = [Column(Crossing(Indice_RAW, nome_colonna), name=nome_colonna) for nome_colonna in nomi_colonne_SDSS]
-    TabellaCreata = Table(colonne)
+    Deposit = Crossing(8)
+
+    #Non sta prendendo la colonna delle flag con l'indice raw pari a 4
+    #print(Deposit.shape)
+    df = pd.DataFrame(Deposit, columns=nomi_colonne_SDSS)
+    #print(df.columns)
+    TableDeposit = Table.from_pandas(df)
+    #print(TableDeposit[1])
+
+
+    #Stampa le colonne
+    salva_array_senza_parentesi('/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/FIBOH_Intersezione.txt', TableDeposit)
+ 
     
     
-    # Creazione di colonne usando astropy.table.Column
-
-
-    # Creazione della tabella usando astropy.table.Table
-    TabellaCreata = Table(colonne)
-
-    colonna1 = Crossing(3, nomi_colonne_SDSS[0])
-    colonna2 = Crossing(3, nomi_colonne_SDSS[1])
-    #print(colonna1[0], colonna2[0])
-
-    # Stampa le colonne
-    #print("Nomi delle colonne:", TabellaCreata.colnames)
-
-    # Stampa le prime 5 righe della tabella
-    #for i in range(5):
-    #    print(f"Riga {i}: {TabellaCreata[i]}")
-
-    
-        
-
-    salva_array_senza_parentesi('/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/Star_Formating_Ratios_Intersezione.txt', TabellaCreata)
-
     
 
 

@@ -1,5 +1,6 @@
 from libreriaUNO import leggi_file_txt, leggi_nomi_colonne
 import numpy as np
+import sys
 from libreriaDUE import Aggiungi_Colonna6plus, Crossing, Lettura_Colonne_RawDATA
 
 
@@ -25,14 +26,20 @@ indices = PATH+"/Int_2_Asec.txt"
 
 indiciint = leggi_file_txt(indices, 1)
 indiciint2 = np.array(indiciint)
-print(indiciint[0])
+POV = int(sys.argv[1])
+print(indiciint[POV])
 #print(indiciint2[0])
 #print(indiciint2[341])
 
+"""
 nomi_colonne_SDSS = Lettura_Colonne_RawDATA(3)
 print(nomi_colonne_SDSS[0], nomi_colonne_SDSS[1])
 colonna1 = Crossing(3, nomi_colonne_SDSS[0])
 print(colonna1)
+"""
+
+
+
 
 
 """

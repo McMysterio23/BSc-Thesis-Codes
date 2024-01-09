@@ -272,25 +272,47 @@ def Aggiungi_Colonna6plus(arr1, arr2, arr3, arr4, arr5, arr6, indiciint2, coordi
 
 
 
-def Crossing(Indice_file, namecols='Nome della colonna da estrarre', Intersezione=True):
+def Crossing(Indice_file, Intersezione=True):
+    """
+    Questa funzione restituisce l'array contenente i dati di tutte le colonne del file analizzato secondo l'indice dell'array
+    Lista_di_percorQuesta funzione restituisce l'array contenente i dati di tutte le colonne del file analizzato secondo l'indice di ell'array
+    Lista_di_percorsi. Al momento l'implementazione della selezione Intersezione si/no non è ancora implementata !
+    
+    Ricordare che :
+    Indice = 1 ) File Fits LINE
+    Indice = 2 ) File Fits INDX
+    Indice = 3 ) File Fits SFRS
+    Indice = 4 ) File Fits SPECSFR
+    Indice = 5 ) File Fits TOTLGM
+    Indice = 6 ) File Fits SPECMAG
+    Indice = 7 ) File Fits FIBLGM
+    Indice = 8 ) File Fits FIBOH
+    """
+
     # Apro il file FITS che ti interessa
     obj = fits.open(Lista_Di_Percorsi_Ai_Dati[Indice_file])
     data = obj[1].data
-    arr = data[namecols]
 
+
+    #print(data.columns.names)
     # Filtra solo le colonne di tipo float e lunghezza 1
-    colonne_float_len1 = [colonna for colonna in data.columns.names if data[colonna].dtype.kind == 'f' and data[colonna].shape == (len(data),)]
-
+    #colonne_float_len1 = [colonna for colonna in data.columns.names if data[colonna].dtype.kind == 'f' and data[colonna].shape == (len(data),)]
+    colonne_float_len1 = [colonna for colonna in data.columns.names if (data[colonna].dtype.kind == 'f' or np.issubdtype(data[colonna].dtype, np.integer)) and data[colonna].shape == (len(data),)]
     # Ottieni la dimensione dai dati
     dimensione = len(indiciint2)
+    print(colonne_float_len1)
 
-        # Creazione di un array 2D per contenere i valori estratti da tutte le colonne per ciascun indice
+    # Creazione di un array 2D per contenere i valori estratti da tutte le colonne per ciascun indice
+
     intersection = np.ones((dimensione, len(colonne_float_len1)))
+    
 
     # Popola l'array con i valori delle colonne filtrate
     for i in range(dimensione):
         for j, colonna in enumerate(colonne_float_len1):
-            punto = int(indiciint2[i, 0])
-            rra = data[colonna]
-            intersection[i, j] = rra[punto]
+         # Sostituisci il valore eventualmente mancante con la media della colonna
+         data[colonna] = np.where(np.isnan(data[colonna]), np.nanmean(data[colonna]), data[colonna])
+         punto = int(indiciint2[i, 0])
+         rra = data[colonna]
+         intersection[i, j] = rra[punto]
     return intersection
