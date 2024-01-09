@@ -272,7 +272,7 @@ def Aggiungi_Colonna6plus(arr1, arr2, arr3, arr4, arr5, arr6, indiciint2, coordi
 
 
 
-def Crossing(Indice_file, Intersezione=True):
+def Crossing(Indice_file, Base = False, Intersezione=True):
     """
     Questa funzione restituisce l'array contenente i dati di tutte le colonne del file analizzato secondo l'indice dell'array
     Lista_di_percorQuesta funzione restituisce l'array contenente i dati di tutte le colonne del file analizzato secondo l'indice di ell'array
@@ -299,15 +299,17 @@ def Crossing(Indice_file, Intersezione=True):
     
     
     # Filtra solo le colonne di tipo float e lunghezza 1
-    colonne_selezionate = [colonna for colonna in data.columns.names if (data[colonna].dtype.kind == 'f' or np.issubdtype(data[colonna].dtype, np.integer)) and data[colonna].shape == (len(data),)
+    if (Base == True):
+        colonne_selezionate = [colonna for colonna in data.columns.names if (data[colonna].dtype.kind == 'f' or np.issubdtype(data[colonna].dtype, np.integer)) and data[colonna].shape == (len(data),)
                            and colonna not in ['RELEASE', 'MJD']]
+    else:
+       #Filtra solo le colonne di tipo float e lunghezza 1 con nome diverso da PLATEID e FIBERID
+        colonne_selezionate = [colonna for colonna in data.columns.names if
+                      (data[colonna].dtype.kind == 'f' or np.issubdtype(data[colonna].dtype, np.integer)) and
+                       data[colonna].shape == (len(data),) and
+                       colonna not in ['PLATEID', 'FIBERID']] 
     
-    #Filtra solo le colonne di tipo float e lunghezza 1 con nome diverso da PLATEID e FIBERID
-    #colonne_selezionate = [colonna for colonna in data.columns.names if
-    #                   (data[colonna].dtype.kind == 'f' or np.issubdtype(data[colonna].dtype, np.integer)) and
-    #                   data[colonna].shape == (len(data),) and
-    #                   colonna not in ['PLATEID', 'FIBERID']]
-
+   
     
     # Ottieni la dimensione dai dati
     dimensione = len(indiciint2)

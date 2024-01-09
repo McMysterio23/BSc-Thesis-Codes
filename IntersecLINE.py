@@ -1,6 +1,6 @@
 """
-Lo Scopo di questo programma è quello di andare a creare un file .txt con tutte le informazioni relative all'intersezione
-provenienti dal fiile Basale con il nome INFO contenente le informazioni basilari
+Lo Scopo di questo programma è quello di andare ad aggiungere informazioni al file IntersezioneInfo.txt 
+con tutte le informazioni relative all'intersezione provenienti dal file LINE
 """
 
 import numpy as np
@@ -12,7 +12,7 @@ from astropy.table import Column
 from astropy.table import Table
 
 from libreriaUNO import salva_array_senza_parentesi, leggi_nomi_colonne
-from libreriaUNO import leggi_file_txt
+from libreriaUNO import leggi_file_txt, leggi_file_tsv
 from libreriaDUE import plot_and_save_scatter
 from libreriaDUE import plot_scatter
 from libreriaDUE import Intersection_Array_Type1, Aggiungi_Colonna, Aggiungi_Colonna6, AddColumn, Lettura_Colonne_RawDATA, Intersection_Array_Type2
@@ -20,7 +20,7 @@ from libreriaDUE import Aggiungi_Colonna6plus, Crossing
 
 def main():
     #Indice del file di dati grezzi da leggere 
-    Indice_RAW = 0
+    Indice_RAW = 1
     nomi_colonne_SDSS = Lettura_Colonne_RawDATA(Indice_RAW)
     
     lunghezza_lista_SDSS = len(nomi_colonne_SDSS)
@@ -31,7 +31,7 @@ def main():
     #print('Colonne disponibili nel file selezionato : \n', nomi_colonne_SDSS)
 
     
-    Deposit, Columns_selected = Crossing(0, True)
+    Deposit, Columns_selected = Crossing(1)
 
     print('L* Array creato ha dimensioni(Righe, Colonne) pari a :',Deposit.shape)
     print('Al momento sto provvedendo un numero di ', Columns_selected, 'colonne all oggetto pandas')
@@ -39,11 +39,25 @@ def main():
     df = pd.DataFrame(Deposit, columns=Columns_selected)
     #print(df.columns)
     TableDeposit = Table.from_pandas(df)
-    print(TableDeposit[1])
+    
+    
+    #print(TableDeposit[0])
+
+    #VADO DUNQUE A LEGGERE IL FILE CONTENENTE LE INFORMAZIONI BASALI : IntersecInfo.txt
+    FILE_PATH = '/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/IntersezioneInfo.txt'
+    nomi_colonne, RAWTabella = leggi_file_tsv(FILE_PATH)
+
+    for i, nome_colonna in enumerate(Columns_selected):
+     nuova_colonna = Deposit[:, i]
+     RAWTabella = AddColumn(RAWTabella, nuova_colonna, nome_colonna)
+    
 
 
-    #Stampa le colonne
-    salva_array_senza_parentesi('/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/IntersezioneINFO.txt', TableDeposit)
+
+
+
+    #Stampa dunque il tutto alla fine !
+    salva_array_senza_parentesi('/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/IntersezioneInfoLine.txt', RAWTabella)
 
 
 
