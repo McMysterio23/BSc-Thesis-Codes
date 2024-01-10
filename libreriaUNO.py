@@ -125,31 +125,15 @@ def leggi_file_csv(file_path):
 
 
 
-"""
-def leggi_file_tsv(file_path):
-    
-    with open(file_path, 'r') as file:
-        # Leggi la prima riga del file
-        colonne = file.readline().strip().split('\t')
-        
-        # Utilizza il modulo csv per leggere il resto del file
-        reader = csv.DictReader(file, fieldnames=colonne, delimiter='\t')
-        
-        # Inizializza un array per salvare i dati
-        dati = []
-        
-        # Leggi le righe rimanenti e aggiungi i dati all'array
-        for riga in reader:
-            dati.append(riga)
-    
-    return colonne, dati
-"""
+
 
 
 def leggi_file_tsv(file_path):
     """
     Legge un file in formato tsv, in cui la prima riga è costituita dai nomi delle colonne.
     Utilizza il carattere di tabulazione "\t" come separatore.
+    Restituisce una lista eventualmente da trasformare 
+    in un array numpy successivamente con i nomi delle colonne ed un np.array con i dati presenti nel file.
     """
     # Usa pandas per leggere il file in un DataFrame
     df = pd.read_csv(file_path, sep='\t')

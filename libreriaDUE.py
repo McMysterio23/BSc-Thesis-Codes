@@ -60,35 +60,36 @@ def plot_and_save_scatter(array1, array2, save_path, title="Scatter Plot", x_lab
 
 
 
-def plot_scatter(array1, array2, title="Scatter Plot", x_label="X", y_label="Y"):
+def plot_scatter(array1, array2, title="Scatter Plot", x_label="X", y_label="Y", Bilogaritmico = False, Overplotting = False, funzione1 = 'prima funzione',
+                  funzione2 = 'Seconda funzione'):
     # Crea uno scatter plot
     plt.scatter(array1, array2)
     plt.title(title)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
 
+    if Bilogaritmico:
+        # Impostazione della scala logaritmica sugli assi
+        plt.xscale('log')
+        plt.yscale('log')
+
+    if Overplotting:
+        # Dati di esempio per le funzioni
+        x_func = np.linspace(0.5, 15, 1000)  # Creazione di 100 punti tra 0.5 e 5.5
+        y_func1 = funzione1(x_func)
+        y_func2 = funzione2(x_func)
+        # Sovrapposizione del grafico delle funzioni
+        plt.plot(x_func, y_func1, label='Funzione 1')
+        plt.plot(x_func, y_func2, label='Funzione 2')
+        plt.legend()
+
+
+
     # Mostra il plot a video
     plt.show()
 
 
-def Intersection_Array_Type1(Colonna="Nomecolonna"):
-    """
-    Crea un array basato sull'intersezione, ricevendo solo il nome della colonna che si vuole rendere array.
-    NOTA BENE : LA COLONNA DEVE CONTENERE DEI SINGOLI VALORI, NON PUò CONTENERE OGGETTI CHE NON SONO VETTORI SEMPLICI !
-    """
-    #Apro il file fits che mi interessa
-    obj=fits.open(INFO)
-    data=obj[1].data
-    arr=data[Colonna]
-    #creo l'array
-    intersection = np.ones(dimensione)
 
-    #Popolo l'array
-    for i in range(dimensione):
-       punto = int (indiciint2[i])
-       intersection[i] = arr[punto]
-    
-    return intersection
 
 def Aggiungi_Colonna(arr1, Arr2, arr3, arr4, arr5, arr6, arr7=np.ones(dimensione), arr8=np.zeros(dimensione), arr9=np.zeros(dimensione),
                      nome1='Nome Colonna1', nome2='Nome Colonna2', nome3='Nome Colonna3',
@@ -121,23 +122,7 @@ def Aggiungi_Colonna6(arr1, arr2, arr3, arr4, arr5, arr6, nome1='Nome Colonna1',
                             Column(arr5, name=nome5), Column(arr6, name=nome6)])
     
     return Sample_derived
-    """
-    # Estrai un array unidimensionale da 'Indici_INFO'
-    indici_info_unidimensionale = np.array([np.array(item) for item in Sample_derived['Indici_INFO']])
-
-    # Rimuovi la colonna 'Indici_INFO' dalla tabella
-    Sample_derived.remove_column('Indici_INFO')
-
-    # Converte la tabella in un DataFrame di pandas
-    dataframe = Sample_derived.to_pandas()
-
-    # Aggiungi la nuova colonna unidimensionale a 'Indici_INFO'
-    dataframe['Indici_INFO'] = indici_info_unidimensionale
-
-    # Restituisci un array NumPy
-    return dataframe.values
-    """
-
+   
 def AddColumn(table_esistente, nuova_colonna, nome_colonna):
     """
     Aggiunge una nuova colonna a un oggetto Table esistente.
@@ -169,69 +154,7 @@ def AddColumn(table_esistente, nuova_colonna, nome_colonna):
     return table_esistente
 
 
-def Intersection_Array_Type2(Indice_file, namecols = 'Nome della colonna da estrarre', Intersezione = True):
-    """
-    Questa funzione va a restituire un'array con i dati della colonna richiesta, e presenti nell'insieme intersezione.
-    Questo avviene di default se non si imposta diversamente il valore dell'ultimo argomento della funzione che nel caso venga 
-    impostato sul valore di false allora restituirà le informazioni richieste al di fuori dell'insieme intersezione !!
 
-    Ricordati dunque di impostare come primo argomento il numero del file che ti interessa, qui di seguito l'organizzazione del database :
-
-    Indice = 1 ) File Fits LINE
-    Indice = 2 ) File Fits INDX
-    Indice = 3 ) File Fits SFRS
-    Indice = 4 ) File Fits SPECSFR
-    Indice = 5 ) File Fits TOTLGM
-    Indice = 6 ) File Fits SPECMAG
-    Indice = 7 ) File Fits FIBLGM
-    Indice = 8 ) File Fits FIBOH
-
-    """
-
-    #devo implementare ancora la selezione dell'insieme intersezione o meno !!!! Qui trovi lo switch che ti fa la cosa !!
-    """
-    #PARTE DI CODICE DA CONTROLLARE E TESTARE, POTREBBE NON FUNZIONARE !!!
-    #HO COMUNQUE CAPITO CHE PER LA RICERCA ANCHE NELLA TYPE2 SONO SUFFICIENTI GLI INDICI DELL'ARRAY !!!
-    if (Intersezione == False):
-        s=5 #Inizio parte di codice per gli elementi al di fuori dell'intersezione 
-    else:
-        #Apro il file fits che mi interessa
-        obj=fits.open(Lista_Di_Percorsi_Ai_Dati[Indice_file])
-        data=obj[1].data
-        arr=data[namecols]
-        
-        #creo il sample da riempire 
-        intersection = np.ones(dimensione)
-
-        #Popolo l'array
-        for i in range(dimensione):
-            punto = int (indiciint2[i,0])
-            intersection[i] = arr[punto]
-    
-        return intersection
-        """
-    
-    # Apro il file FITS che ti interessa
-    obj = fits.open(Lista_Di_Percorsi_Ai_Dati[Indice_file])
-    data = obj[1].data
-    arr = data[namecols]
-
-    # Filtra solo le colonne di tipo float e lunghezza 1
-    colonne_float_len1 = [colonna for colonna in data.columns.names if data[colonna].dtype.kind == 'f' and data[colonna].shape == (len(data),)]
-
-    # Crea il sample da riempire
-    intersection = np.ones(dimensione)
-
-    # Popola l'array con i valori delle colonne filtrate
-    for i in range(dimensione):
-        for colonna in colonne_float_len1:
-            punto = int(indiciint2[i, 0])
-            
-            rra = data[colonna]
-            intersection[i] = rra[punto]
-
-
-    return intersection
 
     
 
