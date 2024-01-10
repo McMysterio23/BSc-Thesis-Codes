@@ -1,22 +1,24 @@
 """
 Lo Scopo di questo programma è quello di andare ad aggiungere informazioni al file IntersezioneInfo.txt 
-con tutte le informazioni relative all'intersezione provenienti dal file LINE
+con tutte le informazioni relative all'intersezione provenienti dal file LINE, sono arrivato all'indice 16 passato da linea di comando
 """
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import sys
 from astropy.io import fits
 from astropy.table import QTable
 from astropy.table import Column
 from astropy.table import Table
+
 
 from libreriaUNO import salva_array_senza_parentesi, leggi_nomi_colonne
 from libreriaUNO import leggi_file_txt, leggi_file_tsv
 from libreriaDUE import plot_and_save_scatter
 from libreriaDUE import plot_scatter
 from libreriaDUE import Intersection_Array_Type1, Aggiungi_Colonna, Aggiungi_Colonna6, AddColumn, Lettura_Colonne_RawDATA, Intersection_Array_Type2
-from libreriaDUE import Aggiungi_Colonna6plus, Crossing
+from libreriaDUE import Aggiungi_Colonna6plus, CrossingColonna
 
 def main():
     #Indice del file di dati grezzi da leggere 
@@ -25,39 +27,47 @@ def main():
     
     lunghezza_lista_SDSS = len(nomi_colonne_SDSS)
 
+    IndexColumnRequested = int(sys.argv[1])
+
 
     #STAMPE DI INFORMAZIONI UTILI !!!
-    #print('Ci sono un totale di ',lunghezza_lista_SDSS,' colonne in questo file !')
-    #print('Colonne disponibili nel file selezionato : \n', nomi_colonne_SDSS)
+    print('Ci sono un totale di ',lunghezza_lista_SDSS,' colonne in questo file !')
+    print('Al momento stai cercando di analizzare la colonna con indice', IndexColumnRequested, 'ossia ', nomi_colonne_SDSS[IndexColumnRequested])
+
 
     
-    Deposit, Columns_selected = Crossing(1)
+    Deposit= CrossingColonna(1, nomi_colonne_SDSS[IndexColumnRequested])
+    ColonnaTrovata = Deposit[0]
+    ARRDeposit = np.array(ColonnaTrovata)
+    
+    
+    #print(np.shape(ARRDeposit))
+    #TableDeposit = Table(Column(ARRDeposit, nomi_colonne_SDSS[IndexColumnRequested]))
 
-    print('L* Array creato ha dimensioni(Righe, Colonne) pari a :',Deposit.shape)
-    print('Al momento sto provvedendo un numero di ', Columns_selected, 'colonne all oggetto pandas')
-    
-    df = pd.DataFrame(Deposit, columns=Columns_selected)
-    #print(df.columns)
-    TableDeposit = Table.from_pandas(df)
+    #print('L* Array creato ha dimensioni(Righe, Colonne) pari a :',Deposit.shape)
     
     
-    #print(TableDeposit[0])
+    
 
     #VADO DUNQUE A LEGGERE IL FILE CONTENENTE LE INFORMAZIONI BASALI : IntersecInfo.txt
     FILE_PATH = '/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/IntersezioneInfo.txt'
-    nomi_colonne, RAWTabella = leggi_file_tsv(FILE_PATH)
 
-    for i, nome_colonna in enumerate(Columns_selected):
-     nuova_colonna = Deposit[:, i]
-     RAWTabella = AddColumn(RAWTabella, nuova_colonna, nome_colonna)
-    
+    if(IndexColumnRequested > 2):
+        FILE_PATH = '/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/IntersezioneInfoLine.txt'
+    nomi_colonne, RAWTabella = leggi_file_tsv(FILE_PATH)
+    TableRAWTabella = Table(RAWTabella, names = nomi_colonne)
+
+    TableRAWTabella = AddColumn(TableRAWTabella, ARRDeposit, nomi_colonne_SDSS[IndexColumnRequested])
+
+
+        
 
 
 
 
 
     #Stampa dunque il tutto alla fine !
-    salva_array_senza_parentesi('/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/IntersezioneInfoLine.txt', RAWTabella)
+    salva_array_senza_parentesi('/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/IntersezioneInfoLine.txt', TableRAWTabella)
 
 
 

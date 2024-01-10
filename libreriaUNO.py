@@ -1,5 +1,6 @@
 from astropy.io import fits
 import numpy as np
+import pandas as pd
 import csv
 
 
@@ -62,6 +63,7 @@ def leggi_file_txt(nome_file, numero_colonne):
 def salva_array_senza_parentesi(file_path, array):
     # Salva l'array nel file di testo senza parentesi quadre
     #np.savetxt(file_path, array, delimiter=' ', fmt='%g')
+    #fmt_list = ['%s', '%g']
     np.savetxt(file_path, array, delimiter='\t',header='\t'.join(list(array.dtype.names)), comments='', fmt='%g')
 
 
@@ -120,11 +122,12 @@ def leggi_file_csv(file_path):
     
     return colonne, dati
 
+
+
+
+"""
 def leggi_file_tsv(file_path):
-    """
-    Legge File in formato tsv, in cui la prima riga è costituita dai nomi delle colonne
-    Viene Utilizzato come separatore il carattere dello spazio "\t" !!!
-    """
+    
     with open(file_path, 'r') as file:
         # Leggi la prima riga del file
         colonne = file.readline().strip().split('\t')
@@ -139,4 +142,20 @@ def leggi_file_tsv(file_path):
         for riga in reader:
             dati.append(riga)
     
+    return colonne, dati
+"""
+
+
+def leggi_file_tsv(file_path):
+    """
+    Legge un file in formato tsv, in cui la prima riga è costituita dai nomi delle colonne.
+    Utilizza il carattere di tabulazione "\t" come separatore.
+    """
+    # Usa pandas per leggere il file in un DataFrame
+    df = pd.read_csv(file_path, sep='\t')
+
+    # Estrai nomi delle colonne e dati dal DataFrame
+    colonne = df.columns.tolist()
+    dati = df.to_numpy()
+
     return colonne, dati

@@ -329,3 +329,64 @@ def Crossing(Indice_file, Base = False, Intersezione=True):
          rra = data[colonna]
          intersection[i, j] = rra[punto]
     return intersection, colonne_selezionate
+
+
+
+
+def CrossingColonna(Indice_file, Colonna_da_analizzare, Base=False, Intersezione=True):
+    """
+    Questa funzione restituisce una colonna contenente i dati della colonna specificata
+    del file FITS analizzato secondo l'indice dell'array Lista_di_percorsi.
+
+    Parametri:
+    - Indice_file: Indice del file FITS da analizzare.
+    - Colonna_da_analizzare: Nome della colonna da estrarre.
+    - Base: Se True, usa una base diversa di colonne selezionate.
+    - Intersezione: Non ancora implementato.
+
+    Restituisce:
+    - Una colonna con i dati della colonna specificata.
+    - Un array con i nomi delle colonne effettivamente selezionate.
+    """
+
+    # Apro il file FITS che ti interessa
+    obj = fits.open(Lista_Di_Percorsi_Ai_Dati[Indice_file])
+    data = obj[1].data
+
+    # Filtra solo le colonne di tipo float e lunghezza 1
+    if Base:
+        colonne_selezionate = [colonna for colonna in data.columns.names if
+                               (data[colonna].dtype.kind == 'f' or np.issubdtype(data[colonna].dtype, np.integer)) and
+                               data[colonna].shape == (len(data),) and
+                               colonna not in ['RELEASE', 'MJD']]
+    else:
+        # Filtra solo le colonne di tipo float e lunghezza 1 con nome diverso da PLATEID e FIBERID
+        colonne_selezionate = [colonna for colonna in data.columns.names if
+                               (data[colonna].dtype.kind == 'f' or np.issubdtype(data[colonna].dtype, np.integer)) and
+                               data[colonna].shape == (len(data),) and
+                               colonna not in ['PLATEID', 'FIBERID']]
+
+    # Verifica se la colonna specificata è presente nelle colonne selezionate
+    if Colonna_da_analizzare not in colonne_selezionate:
+        raise ValueError(f"La colonna {Colonna_da_analizzare} non è presente nelle colonne selezionate.")
+
+    # Ottieni la dimensione dai dati
+    dimensione = len(indiciint2)
+    print('Sto Selezionando la colonna con il nome:', Colonna_da_analizzare)
+
+    # Creazione di un array per contenere i valori estratti dalla colonna per ciascun indice
+    colonna_selezionata = np.ones(dimensione)
+
+    # Popola l'array con i valori della colonna filtrata
+    for i in range(dimensione):
+        punto = int(indiciint2[i, 0])
+        rra = data[Colonna_da_analizzare]
+
+        # Sostituisci il valore eventualmente mancante con la media della colonna
+        data[Colonna_da_analizzare] = np.where(np.isnan(data[Colonna_da_analizzare]),
+                                               np.nanmean(data[Colonna_da_analizzare]),
+                                               data[Colonna_da_analizzare])
+
+        colonna_selezionata[i] = rra[punto]
+
+    return colonna_selezionata, colonne_selezionate
