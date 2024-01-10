@@ -1,6 +1,8 @@
 """
 Lo Scopo di questo programma è quello di andare ad aggiungere informazioni al file IntersezioneInfo.txt 
-con tutte le informazioni relative all'intersezione provenienti dal file LINE, sono arrivato all'indice 16 passato da linea di comando
+con tutte le informazioni relative all'intersezione provenienti dal file LINE, sono arrivato all'indice 17 passato da linea di comando
+
+NOTA BENE : nel file Prizm compaiono sotto il numero = n+1 se io da linea di comando ho chiamato la colonna n-esima !!!
 """
 
 import numpy as np
