@@ -63,6 +63,11 @@ def plot_and_save_scatter(array1, array2, save_path, title="Scatter Plot", x_lab
 def plot_scatter(array1, array2, funzione1, funzione2, title="Scatter Plot", s=15, x_label="X", y_label="Y", Bilogaritmico = False, Overplotting = False,
                   NomeFunzione1 = 'Inserire il nome della prima funzione', 
                   NomeFunzione2 = 'Inserire il nome della seconda funzione'):
+    
+
+
+    Xmin, Xmax         = -1.2, 1.2   # Define the maximum and minimum limit in X-axis
+    Ymin, Ymax         = -1.5, 1.0   # Define the maximum and minimum limit in Y-axis
     # Crea uno scatter plot
     plt.scatter(array1, array2)
     plt.title(title)
@@ -83,6 +88,8 @@ def plot_scatter(array1, array2, funzione1, funzione2, title="Scatter Plot", s=1
         # Sovrapposizione del grafico delle funzioni
         plt.plot(x_func, y_func1, label=NomeFunzione1)
         plt.plot(x_func, y_func2, label=NomeFunzione2)
+        plt.xlim(Xmin, Xmax)
+        plt.ylim(Ymin, Ymax)
         plt.legend()
     
 

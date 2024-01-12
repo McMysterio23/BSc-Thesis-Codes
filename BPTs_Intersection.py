@@ -12,7 +12,7 @@ from libreriaUNO import leggi_nomi_colonne, leggi_file_tsv
 from libreriaDUE import plot_and_save_scatter, plot_scatter
 from libreriaDUE import Aggiungi_Colonna, Aggiungi_Colonna6, AddColumn, Lettura_Colonne_RawDATA
 
-from FUNZIONI import Kauffmann_03, Kewley_01, main_AGN_line, LINER_Sy2_line
+from FUNZIONI_BPTs import Kauffmann_03, Kewley_01, main_AGN_line, LINER_Sy2_line, BPT_type1, BPT_type2, BPT_type2_colored, BPTtype1_colored
 
 def main():
 
@@ -39,6 +39,11 @@ def main():
 
     Index_HBeta_Flux = int(np.where(ARRNOMI == 'H_BETA_FLUX')[0][0])
     Index_HBeta_Flux_Err = int(np.where(ARRNOMI == 'H_BETA_FLUX_ERR')[0][0])
+
+
+
+
+
 
     #BPT Diagram del primo tipo : OIII/Hb versus NII/Ha
     """
@@ -73,19 +78,26 @@ def main():
 
     for i in range(452):
         if Ascisse[i] > 0:
-            LOGAscisse[i] = np.log(Ascisse[i])
+            LOGAscisse[i] = np.log10(Ascisse[i])
         else:
             LOGAscisse[i] = np.nan  # o un altro valore di default
 
         if Ordinate[i] > 0:
-            LOGOrdinate[i] = np.log(Ordinate[i])
+            LOGOrdinate[i] = np.log10(Ordinate[i])
         else:
             LOGOrdinate[i] = np.nan  # o un altro valore di default
  
     size = float(sys.argv[2])
-    plot_scatter(LOGAscisse, LOGOrdinate,Kauffmann_03, Kewley_01, 'BPT Diagram Type1 of the BCGs', size, 'log(NII/Halpha)', 'log(OIII/Hbeta)', ScalaBilogaritmica,
-                 Overplotting, 'Kauffman 03', 'Kewley 01')
+    #plot_scatter(LOGAscisse, LOGOrdinate,Kauffmann_03, Kewley_01, 'BPT Diagram Type1 of the BCGs', size, 'log(NII/Halpha)', 'log(OIII/Hbeta)', ScalaBilogaritmica, Overplotting, 'Kauffman 03', 'Kewley 01')
     
+    BPT_type1(LOGAscisse, LOGOrdinate, True)
+    BPT_type1(LOGAscisse, LOGOrdinate)
+    BPTtype1_colored(LOGAscisse, LOGOrdinate)
+    
+
+
+
+
     #BPT Diagram del secondo tipo 
     """
     log([OIII]/Hb) = 0.72 / (log([SII]/Ha) - 0.32) + 1.30    (main AGN line)
@@ -118,18 +130,25 @@ def main():
 
     for i in range(452):
         if Ascisse[i] > 0:
-            LOGAscisse[i] = np.log(Ascisse[i])
+            LOGAscisse[i] = np.log10(Ascisse[i])
         else:
             LOGAscisse[i] = np.nan  # o un altro valore di default
 
         if Ordinate[i] > 0:
-            LOGOrdinate[i] = np.log(Ordinate[i])
+            LOGOrdinate[i] = np.log10(Ordinate[i])
         else:
             LOGOrdinate[i] = np.nan  # o un altro valore di default
  
     size = float(sys.argv[2])
-    plot_scatter(LOGAscisse, LOGOrdinate,main_AGN_line, LINER_Sy2_line, 'BPT Diagram Type2 of the BCGs', size, 'log(SII-6717A/Halpha)', 'log(OIII/Hbeta)', ScalaBilogaritmica,
-                 Overplotting, 'Main AGN Line', 'LINER Sy2 LINE')
+    #plot_scatter(LOGAscisse, LOGOrdinate,main_AGN_line, LINER_Sy2_line, 'BPT Diagram Type2 of the BCGs', size, 'log(SII-6717A/Halpha)', 'log(OIII/Hbeta)', ScalaBilogaritmica, Overplotting, 'Main AGN Line', 'LINER Sy2 LINE')
+    BPT_type2(LOGAscisse, LOGOrdinate, True)
+    BPT_type2(LOGAscisse, LOGOrdinate)
+    BPT_type2_colored(LOGAscisse, LOGOrdinate)
+
+
+
+
+    
 #Secondo Type2 
     for i in range(452):
         denom_HBeta = TableRAWTabella[ARRNOMI[Index_HBeta_Flux]][i]
@@ -155,18 +174,42 @@ def main():
 
     for i in range(452):
         if Ascisse[i] > 0:
-            LOGAscisse[i] = np.log(Ascisse[i])
+            LOGAscisse[i] = np.log10(Ascisse[i])
         else:
             LOGAscisse[i] = np.nan  # o un altro valore di default
 
         if Ordinate[i] > 0:
-            LOGOrdinate[i] = np.log(Ordinate[i])
+            LOGOrdinate[i] = np.log10(Ordinate[i])
         else:
             LOGOrdinate[i] = np.nan  # o un altro valore di default
  
     size = float(sys.argv[2])
-    plot_scatter(LOGAscisse, LOGOrdinate,main_AGN_line, LINER_Sy2_line, 'BPT Diagram Type2 of the BCGs', size, 'log(SII-6731A/Halpha)', 'log(OIII/Hbeta)', ScalaBilogaritmica,
-                 Overplotting, 'Main AGN Line', 'LINER Sy2 LINE') 
+    #plot_scatter(LOGAscisse, LOGOrdinate, main_AGN_line, LINER_Sy2_line, 'BPT Diagram Type2 of the BCGs', size, 'log(SII-6731A/Halpha)', 'log(OIII/Hbeta)', ScalaBilogaritmica, Overplotting, 'Main AGN Line', 'LINER Sy2 LINE') 
+    BPT_type2(LOGAscisse, LOGOrdinate, True)
+    BPT_type2(LOGAscisse, LOGOrdinate)
+    BPT_type2_colored(LOGAscisse, LOGOrdinate)
+
+
+
+
+
+
+    #BPT Diagram del Terzo tipo
+    """
+    log([OIII]/Hb) = 0.73 / (log([OI]/Ha) + 0.59) + 1.33    (main AGN line)
+    log([OIII]/Hb) = 1.18 log([OI]/Ha) + 1.30  (LINER/Sy2 line)
+    """
+
+
+
+
+
+
+
+
+
+    
+    
      
     
 
