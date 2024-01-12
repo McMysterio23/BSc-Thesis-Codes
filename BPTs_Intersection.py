@@ -129,7 +129,45 @@ def main():
  
     size = float(sys.argv[2])
     plot_scatter(LOGAscisse, LOGOrdinate,main_AGN_line, LINER_Sy2_line, 'BPT Diagram Type2 of the BCGs', size, 'log(SII-6717A/Halpha)', 'log(OIII/Hbeta)', ScalaBilogaritmica,
+                 Overplotting, 'Main AGN Line', 'LINER Sy2 LINE')
+#Secondo Type2 
+    for i in range(452):
+        denom_HBeta = TableRAWTabella[ARRNOMI[Index_HBeta_Flux]][i]
+        denom_HAlpha = TableRAWTabella[ARRNOMI[Index_HAlpha_Flux]][i]
+        
+        if denom_HBeta != 0 and denom_HAlpha != 0:
+            Ordinate[i] = TableRAWTabella[ARRNOMI[Index_OIII_Flux]][i] / denom_HBeta
+            Ascisse[i] = TableRAWTabella[ARRNOMI[Index_SII6731_Flux]][i] / denom_HAlpha
+        else:
+            Ordinate[i] = np.nan  # o un altro valore di default
+            Ascisse[i] = np.nan   # o un altro valore di default
+
+    Comando = int(sys.argv[1])
+    if Comando == 1:
+       ScalaBilogaritmica = True
+    else:
+       ScalaBilogaritmica = False
+    
+    Overplotting =True
+    #Faccio il logaritmo dei due array Ascisse e Ordinate 
+    LOGAscisse = np.ones(452)
+    LOGOrdinate = np.ones(452)
+
+    for i in range(452):
+        if Ascisse[i] > 0:
+            LOGAscisse[i] = np.log(Ascisse[i])
+        else:
+            LOGAscisse[i] = np.nan  # o un altro valore di default
+
+        if Ordinate[i] > 0:
+            LOGOrdinate[i] = np.log(Ordinate[i])
+        else:
+            LOGOrdinate[i] = np.nan  # o un altro valore di default
+ 
+    size = float(sys.argv[2])
+    plot_scatter(LOGAscisse, LOGOrdinate,main_AGN_line, LINER_Sy2_line, 'BPT Diagram Type2 of the BCGs', size, 'log(SII-6731A/Halpha)', 'log(OIII/Hbeta)', ScalaBilogaritmica,
                  Overplotting, 'Main AGN Line', 'LINER Sy2 LINE') 
+     
     
 
 

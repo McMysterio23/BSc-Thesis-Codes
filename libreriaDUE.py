@@ -76,14 +76,15 @@ def plot_scatter(array1, array2, funzione1, funzione2, title="Scatter Plot", s=1
 
     if Overplotting:
         # Dati di esempio per le funzioni
-        x_func = np.linspace(0.001, 1, 1000)  # Creazione di 100 punti tra 0.5 e 5.5
+        x_func = np.linspace(0.001, 1, 1000)  
+        x_fun2 = np.linspace(0.95, 1.35, 1000)  
         y_func1 = funzione1(x_func)
         y_func2 = funzione2(x_func)
         # Sovrapposizione del grafico delle funzioni
         plt.plot(x_func, y_func1, label=NomeFunzione1)
         plt.plot(x_func, y_func2, label=NomeFunzione2)
         plt.legend()
-
+    
 
 
     # Mostra il plot a video
