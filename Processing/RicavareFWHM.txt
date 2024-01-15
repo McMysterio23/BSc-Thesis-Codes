@@ -1,0 +1,27 @@
+Per stimare la FWHM (Full Width at Half Maximum) delle linee spettrali utilizzando le EW (Equivalent Width) delle serie di Balmer, i flussi misurati e i fit gaussiani, puoi seguire questi passaggi:
+
+1.	Calcola la larghezza equivalente media (EW):
+	Calcola la EW per ciascuna delle linee della serie di Balmer. La EW può essere ottenuta integrando il flusso sotto la curva della linea spettrale e sottraendo il contributo del continuo.
+	 Assicurati di considerare anche gli errori associati a ciascuna EW.
+
+
+2.	Calcola la dispersione standard delle EW:
+	Calcola la dispersione standard delle EW per avere un'idea della variabilità nella larghezza equivalente tra le diverse linee.
+
+
+3.	Fit Gaussiano:
+	Fit gaussiano ai dati sottratti dal continuo per ogni linea della serie di Balmer. Questo ti darà i parametri del fit, tra cui la FWHM.
+
+
+4.	Calcola la FWHM media:
+	Calcola la FWHM per ciascuna linea usando i parametri ottenuti dal fit gaussiano. Calcola la media delle FWHM per avere una stima complessiva della larghezza delle linee della serie di Balmer.
+
+
+5.	Analizza gli errori:
+	Assicurati di prendere in considerazione gli errori associati alle EW e alle FWHM. Potresti voler propagare gli errori attraverso i calcoli per ottenere stime degli errori associati alla FWHM 
+	media.
+
+
+Ricorda che l'accuratezza di questa stima dipende dalla qualità del fit gaussiano e dalla precisione delle EW misurate. Inoltre, la correlazione tra la larghezza equivalente e la FWHM può variare a seconda delle condizioni specifiche della tua osservazione.
+
+Se possibile, confronta i risultati con quelli ottenuti da altre tecniche o confronta con i risultati pubblicati per verificare la coerenza e la validità delle tue stime. Inoltre, potrebbe essere utile consultare la letteratura scientifica o esperti del campo per ottenere ulteriori consigli specifici basati sulla tua configurazione osservativa.
