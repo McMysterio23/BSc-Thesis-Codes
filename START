@@ -12,3 +12,25 @@ Ho trovato un totale di 452 elementi in comune con una percentuale di elementi d
 
 INFORMAZIONE DI SERVIZIO :
 Affinchè sia possibile utilizzare il codice Label_to_Data.py è necessario rimuovere le parentesi quadre
+
+
+
+Descrizione delle cartelle presenti nella cartella di lavoro :
+
+1) INDICI_BCG :
+Questa cartella contiene le informazioni sugli indici degli oggetti nel sample conplessivo relativi agli oggetti BCG entro 2 arcosecondi !
+ci sono diversi file a seconda del programma che li ha prodotti ma insomma tutto fa capo alla stessa cosa !!
+
+2) Codici :
+Cartella contenente TUTTI i codici finora prodotti ed ancora funzionanti ( a meno di qualche percorso da aggiustare visto l'ordine che ho fatto)
+NB : Contiene anche i file con le librerie e le funzioni contenenti le funzioni per i BPT diagrams
+
+3) Processing :
+Contiene delle informazioni utili per delle elaborazioni : allo stato attuale non è tanto utile, ma il tutto è in costante aggiornamento !!
+
+4) SEMIRAWDATA : 
+Contiene TUTTI i file in formato .txt con le informazioni estratte dai file FITS del SAMPLE complessivo SDSS/DR7 MPA-JHU
+
+5) DATA :
+Stessa cosa della cartella 4 con la differenza che qui il formato dei dati .fits semplifica le elaborazioni snellendo considerevolmente le linee di codice necessarie per 
+l'apertura dei dati in modo opportuno !!!
