@@ -63,7 +63,7 @@ def BPT_type1(LOGarr_x, LOGarr_y, Histogram = False):
 
 
             # Kewley+01 ------------------------------------------
-        X_kewley = np.linspace(0.001, 2)
+        X_kewley = np.linspace(0.001, 1)
         Y_kewley = (0.61 / (np.log10(X_kewley) - 0.47)) + 1.19
 
         # Schawinski+07 --------------------------------------
@@ -71,12 +71,12 @@ def BPT_type1(LOGarr_x, LOGarr_y, Histogram = False):
         Y_schawinski = 1.05 * np.log10(X_schawinski) + 0.45
 
             # Kauffmann+03 ---------------------------------------
-        X_kauffmann = np.linspace(0.001, 2)
+        X_kauffmann = np.linspace(0.001, 1)
         Y_kauffmann = 0.61 / (np.log10(X_kauffmann) - 0.05) + 1.3
         # Regions --------------------------------------------
-        ax.plot(X,   Y, '-' , color='blue', lw=3, label='Kewley+01'    ) # Kewley+01
-        ax.plot(X3, Y3, '-', color='red', lw=5, label='Schawinski+07') # Schawinski+07
-        ax.plot(Xk, Yk, '--', color='blue', lw=5, label='Kauffmann+03' ) # Kauffmann+03
+        ax.plot(X_kewley,   Y_kewley, '-' , color='blue', lw=3, label='Kewley+01'    ) # Kewley+01
+        ax.plot(X_schawinski, Y_schawinski, '-', color='red', lw=5, label='Schawinski+07') # Schawinski+07
+        ax.plot(X_kauffmann, Y_kauffmann, '--', color='blue', lw=5, label='Kauffmann+03' ) # Kauffmann+03
 
         # Axi name here ...
         Nsize = 25
@@ -163,11 +163,12 @@ def BPT_type2(LOGarr_sii_ha, LOGarr_oiii_hb, Histogram = False):
         CS = ax.contour(np.log10(masked.T), levels, colors='k', linewidths=1, extent=[Xmin, Xmax, Ymin, Ymax])
 
         # Nuove linee
-        X_main_agn = np.linspace(-1.5, 0.5)
+        X_main_agn = np.linspace(0.08, 2, 100)  
         Y_main_agn = 0.72 / (np.log10(X_main_agn) - 0.32) + 1.30
 
-        X_liner_sy2 = np.linspace(-1.5, 1.5)
+        X_liner_sy2 = np.linspace(0.49, 2, 100)
         Y_liner_sy2 = 1.89 * np.log10(X_liner_sy2) + 0.76
+
 
         # Plot delle nuove linee
         ax.plot(X_main_agn, Y_main_agn, '-', color='blue', lw=3, label='Main AGN line') 
@@ -281,17 +282,16 @@ def BPTtype1_colored(LOGarr_x, LOGarr_y):
     Nlevels = 4  # Numero di livelli degli isocontorni
 
     # Kewley+01 ------------------------------------------
-    X_kewley = np.linspace(-1.5, 0.3)
-    Y_kewley = (0.61 / (X_kewley - 0.47)) + 1.19
+    X_kewley = np.linspace(0.001, 1)
+    Y_kewley = (0.61 / (np.log10(X_kewley) - 0.47)) + 1.19
 
     # Schawinski+07 --------------------------------------
-    X_schawinski = np.linspace(-0.180, 1.5)
-    Y_schawinski = 1.05 * X_schawinski + 0.45
+    X_schawinski = np.linspace(0.65, 2)
+    Y_schawinski = 1.05 * np.log10(X_schawinski) + 0.45
 
     # Kauffmann+03 ---------------------------------------
-    X_kauffmann = np.linspace(-1.5, 0.)
-    Y_kauffmann = 0.61 / (X_kauffmann - 0.05) + 1.3
-
+    X_kauffmann = np.linspace(0.001, 1)
+    Y_kauffmann = 0.61 / (np.log10(X_kauffmann) - 0.05) + 1.3
     # Plot delle linee delle regioni
     ax.plot(X_kewley, Y_kewley, '-', color='blue', lw=3, label='Kewley+01')  # Kewley+01
     ax.plot(X_schawinski, Y_schawinski, '-', color='red', lw=5, label='Schawinski+07')  # Schawinski+07

@@ -62,7 +62,7 @@ def main():
     log_niiha = np.log10(nii/ha)
 
     #plot_scatter(log_niiha, log_oiiihb, '', '')
-    BPT_type1(log_niiha, log_oiiihb)
+    BPTtype1_colored(log_niiha, log_oiiihb)
 
 
     #SECONDA TIPOLOGIA DI BPT
