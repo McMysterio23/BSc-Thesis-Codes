@@ -16,29 +16,27 @@ from FUNZIONI_BPTs import Kauffmann_03, Kewley_01, main_AGN_line, LINER_Sy2_line
 
 def main():
 
-    FILE_PATH = '/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/IntersezioneInfoLine.txt'
-    nomi_colonne, RAWTabella = leggi_file_tsv(FILE_PATH)
-    TableRAWTabella = Table(RAWTabella, names = nomi_colonne)
+    FILE_PATH = '/Users/andreamaccarinelli/Desktop/BSc-Thesis-Codes/DATA/INFOLINE_BCG.fits'
+    
 
-    ARRNOMI = np.array(nomi_colonne)
+    #apro il file Fits
+    hdul = fits.open(FILE_PATH)  
+    #Matrice tutti dati
+    data = hdul[1].data
+    print('I nomi delle colonne disponibili sono : \n', data.columns.names)  #Dai un'occhiata alle keywords
+    #Per esempio, se vogliamo associate a sigma_bal la colonna chiamara "SIGMA_BALMER"
+    #sigma_bal = data["SIGMA_BALMER"]
 
-    #Indici di posizione delle colonne contenenti le righe che usiamo 
-    Index_OIII_Flux = int(np.where(ARRNOMI == 'OIII_5007_FLUX')[0][0])
-    Index_OIII_Flux_Err = int(np.where(ARRNOMI == 'OIII_5007_FLUX_ERR')[0][0])
-    Index_OI_Flux = int(np.where(ARRNOMI == 'OI_6300_FLUX')[0][0])
-    Index_OI_Flux_Err = int(np.where(ARRNOMI == 'OI_6300_FLUX_ERR')[0][0])
-    Index_NII_Flux = int(np.where(ARRNOMI == 'NII_6584_FLUX')[0][0])
-    Index_NII_Flux_Err = int(np.where(ARRNOMI == 'NII_6584_FLUX_ERR')[0][0])
-    Index_SII6717_Flux = int(np.where(ARRNOMI == 'SII_6717_FLUX')[0][0])
-    Index_SII6717_Flux_Err = int(np.where(ARRNOMI == 'SII_6717_FLUX_ERR')[0][0])
-    Index_SII6731_Flux = int(np.where(ARRNOMI == 'SII_6731_FLUX')[0][0])
-    Index_SII6731_Flux_Err = int(np.where(ARRNOMI == 'SII_6731_FLUX_ERR')[0][0])
+    Ascisse = np.ones(len(data['SIGMA_BALMER']))
+    Ordinate = np.ones(len(data['SIGMA_BALMER']))
 
-    Index_HAlpha_Flux = int(np.where(ARRNOMI == 'H_ALPHA_FLUX')[0][0])
-    Index_HAlpha_Flux_Err = int(np.where(ARRNOMI == 'H_ALPHA_FLUX_ERR')[0][0])
+    IndiciSelezionati =[38, 52, 60, 68, 76, 84, 92] 
+    TabellaSelezionata = data[:,IndiciSelezionati]
+    print(TabellaSelezionata.columns.names)
 
-    Index_HBeta_Flux = int(np.where(ARRNOMI == 'H_BETA_FLUX')[0][0])
-    Index_HBeta_Flux_Err = int(np.where(ARRNOMI == 'H_BETA_FLUX_ERR')[0][0])
+    
+
+    
 
 
 
