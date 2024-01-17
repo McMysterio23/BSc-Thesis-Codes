@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+#ciaone
 
 # Dati di esempio per lo scatter plot
 x_scatter = np.array([1, 2, 3, 4, 5])
