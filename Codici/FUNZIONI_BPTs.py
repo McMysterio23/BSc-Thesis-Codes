@@ -1,3 +1,7 @@
+"""
+Questo file contiene tutte le componenti necessarie per la creazione dei BPT diagrams. tutto però è fermo al momento prima dell'accelerata di metà gennaio!!!
+"""
+
 import numpy as np
 import scipy as sc
 import pylab as plt

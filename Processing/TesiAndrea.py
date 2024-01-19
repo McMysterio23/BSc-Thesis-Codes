@@ -53,7 +53,7 @@ from matplotlib.path import Path
 
 #%% Selection BCG
 
-raBCG,decBCG = np.loadtxt("/Users/andreatravascio/Desktop/Tesisti/TesiAndrea/SDSS/DATA_BCG.txt",usecols=[1,2],unpack=True,dtype=float)
+raBCG,decBCG = np.loadtxt("/Users/andreamaccarinelli/Desktop/SDSSDATA_BCG.txt",usecols=[1,2],unpack=True,dtype=float)
 
 file="/Users/andreatravascio/Desktop/Tesisti/TesiAndrea/SDSS/gal_info_dr7_v5_2.fits"
 fitfile=fits.open(file)
